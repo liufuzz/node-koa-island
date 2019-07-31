@@ -1,9 +1,13 @@
 const Router = require('koa-router')
 const router = new Router()
 
-router.get('/v1/classic/latest', (ctx, next) => {
-  ctx.body = {key: 'classic'}
-  throw new Error('api error')
+const { ParameterException } = require('../../../core/http-exception')
+const { PositiveIntegerValidator } = require('../../validators/validator')
+
+router.post('/v1/:id/classic/latest', (ctx, next) => {
+  
+  const v = new PositiveIntegerValidator().validate(ctx)
+  const id = v.get('path.id')
 })
 
 module.exports = router
