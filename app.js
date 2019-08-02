@@ -4,6 +4,8 @@ const InitManager = require('./core/init')
 
 const catchError = require('./middlewares/exception')
 
+// require('./app/model/user')
+
 const app = new Koa()
 
 app.use(catchError)
