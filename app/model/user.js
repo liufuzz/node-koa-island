@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs')
 const { sequelize } = require('../../core/db')
 const { AuthFailed } = require('../../core/http-exception')
 
-
 class User extends Model {
   static async verifyEmailPassword(email, plainPassword) {
     const user = await User.findOne({
@@ -20,6 +19,21 @@ class User extends Model {
       throw new AuthFailed('密码不正确')
     }
     return user
+  }
+
+  static async getUserByOpenid(openid) {
+    const user = await User.findOne({
+      where: {
+        openid
+      }
+    })
+    return user
+  }
+
+  static async registerByOpenid(openid) {
+    return await User.create({
+      openid
+    })
   }
 }
 
@@ -42,11 +56,11 @@ User.init(
         const pwd = bcrypt.hashSync(val, salt)
         this.setDataValue('password', pwd)
       }
+    },
+    openid: {
+      type: Sequelize.STRING(64),
+      unique: true
     }
-    // openid: {
-    //   type: Sequelize.STRING(64),
-    //   unique: true
-    // }
   },
   {
     sequelize,
