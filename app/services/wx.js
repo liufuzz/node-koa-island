@@ -17,13 +17,14 @@ class WXManager {
 
     console.log("TCL: WXManager -> codeToToken -> url", url)
     const result = await axios.get(url)
-
-    if (result.stutas !== 200) {
-      throw new AuthFailed('openid获取失败')
+    if (result.status !== 200) {
+      throw new AuthFailed('openid获取失败---')
     }
+    console.log(result.data)
     const errcode = result.data.errcode
-    if (errcode !== 0) {
-      throw new AuthFailed('openid获取失败:' + errcode)
+    const errmsg = result.data.errmsg
+    if (errcode) {
+      throw new AuthFailed('openid获取失败:' + errmsg)
     }
 
     let user = await User.getUserByOpenid(result.data.openid)
