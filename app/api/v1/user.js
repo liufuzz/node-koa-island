@@ -11,7 +11,7 @@ router.post('/register', async (ctx, next) => {
   // const v = await new RegisterValidator().validate(ctx)
 
   const user = {
-    email: '12345678901@qq.com',
+    email: '123456@qq.com',
     password: '1234$56',
     nickname: 'liuful'
   }
